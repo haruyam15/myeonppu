@@ -1,3 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.textArea-answer .rt-TextAreaInput {
+  min-height: 300px;
+}
+
+.rt-BaseDialogOverlay:where([data-state='closed'])::before {
+  opacity: 0;
+}
