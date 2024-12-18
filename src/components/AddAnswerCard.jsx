@@ -52,7 +52,7 @@ const AddAnswerCard = ({ quizId }) => {
         >
           <Plus size="50" />
         </div>
-        <Dialog.Content>
+        <Dialog.Content maxWidth="1000px">
           <div className="relative">
             <Dialog.Title>[답변]</Dialog.Title>
             <Dialog.Description />
@@ -66,9 +66,13 @@ const AddAnswerCard = ({ quizId }) => {
                 ref={writerRef}
               />
 
-              <div className="min-h-[300px] prose" data-color-mode="light">
+              <div
+                className="min-h-[300px] prose max-w-full"
+                data-color-mode="light"
+              >
                 <MarkdownEditor
                   value={markdown}
+                  width="100%"
                   height="300px"
                   onChange={(value) => setMarkdown(value)}
                 />

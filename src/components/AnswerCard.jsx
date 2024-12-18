@@ -21,7 +21,7 @@ const AnswerCard = ({ answer }) => {
         <div>
           <p className="text-md font-bold mb-2">[답변]</p>
           <div className="max-h-[200px] overflow-hidden">
-            <div ref={answerboxRef} data-color-mode="light">
+            <div ref={answerboxRef} data-color-mode="light" className="prose">
               <MarkdownEditor.Markdown source={answer.content} />
             </div>
           </div>
@@ -31,13 +31,13 @@ const AnswerCard = ({ answer }) => {
             </Dialog.Trigger>
           )}
         </div>
-        <Dialog.Content className="overflow-hidden">
+        <Dialog.Content className="overflow-hidden" maxWidth="800px">
           <Dialog.Title>[답변]</Dialog.Title>
           <Dialog.Description size="2" mb="4">
             작성자 : {answer.writer}
           </Dialog.Description>
 
-          <div data-color-mode="light">
+          <div data-color-mode="light" className="prose">
             <MarkdownEditor.Markdown source={answer.content} />
           </div>
           <div className="flex justify-end mt-3 gap-3">
