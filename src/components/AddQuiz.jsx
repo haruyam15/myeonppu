@@ -13,6 +13,7 @@ const AddQuiz = () => {
     try {
       if (result) {
         setIsOpen(false);
+        setQuizTitle('');
       }
     } catch (error) {
       alert('등록에 실패 했습니다.', error);
@@ -21,7 +22,7 @@ const AddQuiz = () => {
 
   const handleSubmit = () => {
     if (quizTitle.length === 0) {
-      alert('질문을 입력해주세요.');
+      alert('퀴즈를 입력해주세요.');
       return;
     }
     postQuiz(quizTitle);
@@ -67,7 +68,10 @@ const AddQuiz = () => {
           <X
             size="30"
             className="absolute top-[-8px] right-[-8px] cursor-pointer"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false);
+              setQuizTitle('');
+            }}
           />
         </div>
       </Dialog.Content>
