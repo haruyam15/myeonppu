@@ -1,62 +1,80 @@
-import { Button, Card, TextArea, TextField, Dialog } from '@radix-ui/themes';
-import { Plus } from 'lucide-react';
-import { useRef } from 'react';
-import writeQuiz from '../api/writeAnswer';
+import { Button, Card, TextField, Dialog } from '@radix-ui/themes';
+import { Plus, X } from 'lucide-react';
+import { useRef, useState } from 'react';
+import writeAnswer from '../api/writeAnswer';
+import MarkdownEditor from '@uiw/react-markdown-editor';
 
 const AddAnswerCard = ({ quizId }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [markdown, setMarkdown] = useState('');
   const writerRef = useRef('');
-  const textRef = useRef('');
+
+  const markDownClear = () => {
+    setMarkdown('');
+  };
+
+  const postAnswer = async ({ quizId, newData }) => {
+    const result = await writeAnswer({ quizId, newData });
+
+    try {
+      if (result) {
+        setIsOpen(false);
+        markDownClear();
+      }
+    } catch (error) {
+      alert('등록에 실패 했습니다.', error);
+    }
+  };
 
   const handleSubmit = () => {
     const writer = writerRef.current.value;
-    const content = textRef.current.value;
 
-    if (writer.length === 0 || content.length === 0) {
+    if (writer.length === 0 || markdown.length === 0) {
       alert('이름, 내용을 입력해주세요.');
       return;
     }
 
     const newData = {
-      content,
+      content: markdown,
       writer,
     };
-    writeQuiz({ quizId, newData });
+
+    //끝나면 닫기
+    postAnswer({ quizId, newData });
   };
 
   return (
     <Card className="hover:bg-mauve3">
-      <Dialog.Root>
-        <Dialog.Trigger className="cursor-pointer">
-          <div className="size-full flex items-center justify-center text-gray-500 hover:text-gray-800">
-            <Plus size="50" />
-          </div>
-        </Dialog.Trigger>
+      <Dialog.Root open={isOpen}>
+        <div
+          className="size-full flex items-center justify-center text-gray-500 hover:text-gray-800"
+          onClick={() => setIsOpen(true)}
+        >
+          <Plus size="50" />
+        </div>
         <Dialog.Content>
-          <Dialog.Title>[답변]</Dialog.Title>
-          <Dialog.Description />
+          <div className="relative">
+            <Dialog.Title>[답변]</Dialog.Title>
+            <Dialog.Description />
 
-          <div>
-            <TextField.Root
-              placeholder="이름"
-              radius="large"
-              size="2"
-              className="max-w-[200px] mb-3"
-              ref={writerRef}
-            />
-
-            <div className="min-h-[300px]">
-              <TextArea
-                size="2"
-                placeholder="답변"
+            <div>
+              <TextField.Root
+                placeholder="이름"
                 radius="large"
-                resize="vertical"
-                className="textArea-answer"
-                ref={textRef}
+                size="2"
+                className="max-w-[200px] mb-3"
+                ref={writerRef}
               />
+
+              <div className="min-h-[300px] prose" data-color-mode="light">
+                <MarkdownEditor
+                  value={markdown}
+                  height="300px"
+                  onChange={(value) => setMarkdown(value)}
+                />
+              </div>
             </div>
-          </div>
-          <div className="flex justify-end mt-3">
-            <Dialog.Close>
+            <div className="flex justify-end mt-3">
               <Button
                 variant="soft"
                 color="indigo"
@@ -65,7 +83,16 @@ const AddAnswerCard = ({ quizId }) => {
               >
                 완료
               </Button>
-            </Dialog.Close>
+            </div>
+
+            <X
+              size="30"
+              className="absolute top-[-8px] right-[-8px] cursor-pointer"
+              onClick={() => {
+                setIsOpen(false);
+                markDownClear();
+              }}
+            />
           </div>
         </Dialog.Content>
       </Dialog.Root>

@@ -1,4 +1,5 @@
 import { Button, Card, Dialog } from '@radix-ui/themes';
+import MarkdownEditor from '@uiw/react-markdown-editor';
 import { useEffect, useRef, useState } from 'react';
 
 const AnswerCard = ({ answer }) => {
@@ -20,8 +21,8 @@ const AnswerCard = ({ answer }) => {
         <div>
           <p className="text-md font-bold mb-2">[답변]</p>
           <div className="max-h-[200px] overflow-hidden">
-            <div ref={answerboxRef}>
-              <pre>{answer.content}</pre>
+            <div ref={answerboxRef} data-color-mode="light">
+              <MarkdownEditor.Markdown source={answer.content} />
             </div>
           </div>
           {isMore && (
@@ -30,17 +31,22 @@ const AnswerCard = ({ answer }) => {
             </Dialog.Trigger>
           )}
         </div>
-        <Dialog.Content>
+        <Dialog.Content className="overflow-hidden">
           <Dialog.Title>[답변]</Dialog.Title>
           <Dialog.Description size="2" mb="4">
             작성자 : {answer.writer}
           </Dialog.Description>
 
-          <div>
-            <pre>{answer.content}</pre>
+          <div data-color-mode="light">
+            <MarkdownEditor.Markdown source={answer.content} />
           </div>
           <div className="flex justify-end mt-3 gap-3">
-            <Button variant="soft" color="orange" size="3">
+            <Button
+              variant="soft"
+              color="orange"
+              size="3"
+              onClick={() => alert('아직 안됩니다,,')}
+            >
               수정
             </Button>
 

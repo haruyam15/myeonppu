@@ -15,6 +15,7 @@ const writeAnswer = async ({ quizId, newData }) => {
   });
   try {
     await set(dbRef, updated);
+    return true;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : '업데이트 실패');
   }

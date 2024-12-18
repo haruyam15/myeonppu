@@ -6,13 +6,25 @@ import writeQuiz from '../api/writeQuiz';
 const AddQuiz = () => {
   const [quizTitle, setQuizTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+
+  const postQuiz = async (title) => {
+    const result = await writeQuiz({ title });
+
+    try {
+      if (result) {
+        setIsOpen(false);
+      }
+    } catch (error) {
+      alert('등록에 실패 했습니다.', error);
+    }
+  };
+
   const handleSubmit = () => {
     if (quizTitle.length === 0) {
       alert('질문을 입력해주세요.');
       return;
     }
-    writeQuiz({ title: quizTitle });
-    setIsOpen(false);
+    postQuiz(quizTitle);
   };
 
   return (
@@ -37,7 +49,7 @@ const AddQuiz = () => {
               placeholder="질문을 입력해주세요"
               className="w-full h-[40px]"
               onChange={(e) => setQuizTitle(e.target.value)}
-              asChilds
+              asChild
             />
           </div>
 

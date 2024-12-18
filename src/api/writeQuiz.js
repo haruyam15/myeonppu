@@ -11,11 +11,13 @@ const writeQuiz = async ({ title }) => {
     title: title,
   };
   const updated = [...origins, newQuiz];
-  console.log('Updated data to save:', updated);
   try {
     await set(dbRef, updated);
+    return true;
   } catch (error) {
-    throw new Error(error instanceof Error ? error.message : '업데이트 실패');
+    alert('등록에 실패 했습니다.', error);
+    return false;
+    // throw new Error(error instanceof Error ? error.message : '업데이트 실패');
   }
 };
 
