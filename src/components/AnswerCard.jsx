@@ -1,6 +1,8 @@
-import { Button, Card, Dialog } from '@radix-ui/themes';
+import { Button, Card, Dialog, IconButton } from '@radix-ui/themes';
 import MarkdownEditor from '@uiw/react-markdown-editor';
+import { Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import deleteAnswer from '../api/deleteAnswer';
 
 const AnswerCard = ({ answer }) => {
   const answerboxRef = useRef(null);
@@ -12,6 +14,16 @@ const AnswerCard = ({ answer }) => {
       setIsMore(height > 200);
     }
   }, []);
+
+  const handelDelete = () => {
+    const isConfirmed = confirm('정말 삭제하시겠습니까?');
+
+    if (isConfirmed) {
+      deleteAnswer(answer.id);
+    } else {
+      return;
+    }
+  };
 
   return (
     <Card className="text-sm">
@@ -58,6 +70,15 @@ const AnswerCard = ({ answer }) => {
           </div>
         </Dialog.Content>
       </Dialog.Root>
+      <IconButton
+        size="1"
+        variant="soft"
+        color="crimson"
+        className="absolute top-2 right-2"
+        onClick={handelDelete}
+      >
+        <Trash2 size="15" />
+      </IconButton>
     </Card>
   );
 };

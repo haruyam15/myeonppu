@@ -6,7 +6,12 @@ const writeAnswer = async ({ quizId, newData }) => {
   const snapshot = await get(dbRef);
   const origins = snapshot.val();
   const updated = origins.map((origin) => {
-    const newAnswer = origin.answer ? [...origin.answer, newData] : [newData];
+    const newAnswer = origin.answer
+      ? [
+          ...origin.answer,
+          { ...newData, id: Math.floor(Math.random() * 100000) },
+        ]
+      : [newData];
     if (origin.id === quizId) {
       return { ...origin, answer: newAnswer };
     } else {

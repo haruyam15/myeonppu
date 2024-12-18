@@ -5,7 +5,7 @@ const writeQuiz = async ({ title }) => {
   const dbRef = ref(database, 'data/quiz');
   const snapshot = await get(dbRef);
   const origins = snapshot.val();
-  const newId = origins[origins.length - 1].id + 1;
+  const newId = Math.floor(Math.random() * 100000);
   const newQuiz = {
     id: newId,
     title: title,
