@@ -5,3 +5,7 @@
 .rt-BaseDialogOverlay:where([data-state='closed'])::before {
   opacity: 0;
 }
+
+.wmde-markdown pre {
+  background-color: #1f2937 !important;
+}

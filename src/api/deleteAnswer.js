@@ -1,15 +1,21 @@
 import { ref, get, set } from 'firebase/database';
 import { database } from './firebaseApp';
 
-const deleteAnswer = async (targetId) => {
+const deleteAnswer = async (quizId, targetAnswerId) => {
   const dbRef = ref(database, 'data/quiz');
   const snapshot = await get(dbRef);
   const origins = snapshot.val();
 
-  const updated = origins.map((quiz) => ({
-    ...quiz,
-    answer: quiz.answer.filter((ans) => ans.id !== targetId),
-  }));
+  const updated = origins.map((quiz) => {
+    if (quiz.id === quizId) {
+      return {
+        ...quiz,
+        answer: quiz.answer.filter((ans) => ans.id !== targetAnswerId),
+      };
+    } else {
+      return quiz;
+    }
+  });
 
   try {
     await set(dbRef, updated);

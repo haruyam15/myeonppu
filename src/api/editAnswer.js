@@ -1,19 +1,23 @@
 import { ref, get, set } from 'firebase/database';
 import { database } from './firebaseApp';
 
-const writeAnswer = async ({ quizId, newData }) => {
+const editAnswer = async ({ quizId, updatedData }) => {
   const dbRef = ref(database, 'data/quiz');
   const snapshot = await get(dbRef);
   const origins = snapshot.val();
   const updated = origins.map((origin) => {
-    const newAnswer = origin.answer
-      ? [
-          ...origin.answer,
-          { ...newData, id: Math.floor(Math.random() * 100000) },
-        ]
-      : [{ ...newData, id: Math.floor(Math.random() * 100000) }];
-    if (origin.id === quizId) {
-      return { ...origin, answer: newAnswer };
+    if (quizId === origin.id) {
+      const targetAnswerId = updatedData.id;
+      return {
+        ...origin,
+        answer: origin.answer.map((aw) => {
+          if (targetAnswerId === aw.id) {
+            return updatedData;
+          } else {
+            return aw;
+          }
+        }),
+      };
     } else {
       return origin;
     }
@@ -26,4 +30,4 @@ const writeAnswer = async ({ quizId, newData }) => {
   }
 };
 
-export default writeAnswer;
+export default editAnswer;

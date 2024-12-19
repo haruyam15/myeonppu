@@ -8,7 +8,7 @@ const QuizAnswers = ({ answers, quizId }) => {
     <Content>
       <Grid columns="3" gap="3" width="auto" className="p-5">
         {answers.map((answer, i) => (
-          <AnswerCard key={i} answer={answer} />
+          <AnswerCard key={i} answer={answer} quizId={quizId} />
         ))}
         <AddAnswerCard quizId={quizId} />
       </Grid>
