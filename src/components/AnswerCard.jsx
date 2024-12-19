@@ -85,7 +85,7 @@ const AnswerCard = ({ answer, quizId }) => {
           )}
         </div>
         {isEditMode ? (
-          <Dialog.Content className="overflow-hidden" maxWidth="800px">
+          <Dialog.Content className="overflow-hidden" maxWidth="1000px">
             <Dialog.Title>[답변]</Dialog.Title>
             <Dialog.Description />
             <TextField.Root
