@@ -1,8 +1,14 @@
-# React + Vite
+# 면뿌 - 면접 스터디를 위한 질문/답변 공유 서비스
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **면접 질문과 답변을 모아 스터디에 활용할 수 있는 간단한 서비스**
 
-Currently, two official plugins are available:
+이 서비스는 면접 스터디 그룹에서 자주 등장하는 기출 질문을 모으고, 질문에 대한 답변을 작성하여 공유할 수 있도록 설계되었습니다.  
+함께 공부하며 효율적인 스터디를 진행할 수 있습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 주요 기능
+- **문제 등록**: 면접에서 자주 등장하는 기출 질문을 등록합니다.
+- **답변 작성**: 각 질문에 대한 답변을 작성하고 수정할 수 있습니다.
+- **질문 및 답변 조회**: 스터디 그룹원들과 질문과 답변을 공유합니다.
+
+## 배포 주소
+[**서비스 바로가기**](https://myeonppu.netlify.app/)
