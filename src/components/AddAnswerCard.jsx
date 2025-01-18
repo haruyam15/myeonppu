@@ -3,6 +3,7 @@ import { Plus, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import writeAnswer from '../api/writeAnswer';
 import MarkdownEditor from '@uiw/react-markdown-editor';
+import checkPassword from '../utils/checkPassword';
 
 const AddAnswerCard = ({ quizId }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +35,10 @@ const AddAnswerCard = ({ quizId }) => {
       return;
     }
 
+    if (!checkPassword()) {
+      return;
+    }
+
     const newData = {
       content: markdown,
       writer,
@@ -47,7 +52,7 @@ const AddAnswerCard = ({ quizId }) => {
     <Card className="hover:bg-mauve3">
       <Dialog.Root open={isOpen}>
         <div
-          className="size-full flex items-center justify-center text-gray-500 hover:text-gray-800"
+          className="flex items-center justify-center text-gray-500 size-full hover:text-gray-800"
           onClick={() => setIsOpen(true)}
         >
           <Plus size="50" />

@@ -8,30 +8,43 @@ import { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { database } from './api/firebaseApp';
 import AddQuiz from './components/AddQuiz';
+import { LoaderCircle } from 'lucide-react';
+import { violet } from '@radix-ui/colors';
 
 function App() {
   const [datas, setDatas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const dbRef = ref(database, 'data/quiz');
-
+    setIsLoading(true);
     const unsubscribe = onValue(
       dbRef,
       (snapshot) => {
         const data = snapshot.val();
         const sortedData = [...data].reverse();
         setDatas(sortedData);
+        setIsLoading(false);
       },
       (error) => {
         console.error('Error fetching data:', error);
+        setIsLoading(false);
       }
     );
 
     return () => unsubscribe();
   }, []);
 
-  if (!datas || datas.length === 0) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen">
+        <LoaderCircle
+          className="animate-spin"
+          size="80"
+          color={violet.violet11}
+        />
+      </div>
+    );
   }
 
   return (

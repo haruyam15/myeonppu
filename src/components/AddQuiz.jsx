@@ -2,6 +2,7 @@ import { CirclePlus, X } from 'lucide-react';
 import { Button, Dialog, TextField } from '@radix-ui/themes';
 import { useState } from 'react';
 import writeQuiz from '../api/writeQuiz';
+import checkPassword from '../utils/checkPassword';
 
 const AddQuiz = () => {
   const [quizTitle, setQuizTitle] = useState('');
@@ -25,13 +26,16 @@ const AddQuiz = () => {
       alert('퀴즈를 입력해주세요.');
       return;
     }
+    if (!checkPassword()) {
+      return;
+    }
     postQuiz(quizTitle);
   };
 
   return (
     <Dialog.Root open={isOpen}>
       <div
-        className="fixed bottom-10 right-10 cursor-pointer group flex items-center gap-0 hover:gap-3 bg-indigo7 rounded-lg p-3  text-indigo12"
+        className="fixed flex items-center gap-0 p-3 rounded-lg cursor-pointer bottom-10 right-10 group hover:gap-3 bg-indigo7 text-indigo12"
         onClick={() => setIsOpen(true)}
       >
         <CirclePlus />

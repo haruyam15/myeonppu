@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import deleteAnswer from '../api/deleteAnswer';
 import editAnswer from '../api/editAnswer';
+import checkPassword from '../utils/checkPassword';
 
 const AnswerCard = ({ answer, quizId }) => {
   const answerboxRef = useRef(null);
@@ -21,6 +22,9 @@ const AnswerCard = ({ answer, quizId }) => {
   }, []);
 
   const handelDelete = () => {
+    if (!checkPassword()) {
+      return;
+    }
     const isConfirmed = confirm('정말 삭제하시겠습니까?');
 
     if (isConfirmed) {
@@ -54,6 +58,10 @@ const AnswerCard = ({ answer, quizId }) => {
       return;
     }
 
+    if (!checkPassword()) {
+      return;
+    }
+
     const updatedData = {
       content: markdown,
       writer,
@@ -66,10 +74,10 @@ const AnswerCard = ({ answer, quizId }) => {
   return (
     <Card className="text-sm">
       <Dialog.Root open={isOpen}>
-        <p className="mb-2 text-md font-bold">작성자 : {answer.writer}</p>
+        <p className="mb-2 font-bold text-md">작성자 : {answer.writer}</p>
 
         <div>
-          <p className="text-md font-bold mb-2">[답변]</p>
+          <p className="mb-2 font-bold text-md">[답변]</p>
           <div className="max-h-[200px] overflow-hidden">
             <div ref={answerboxRef} data-color-mode="light" className="prose">
               <MarkdownEditor.Markdown source={answer.content} />
@@ -77,7 +85,7 @@ const AnswerCard = ({ answer, quizId }) => {
           </div>
           {isMore && (
             <p
-              className="text-gray-500 text-right cursor-pointer"
+              className="text-right text-gray-500 cursor-pointer"
               onClick={() => setIsOpen(true)}
             >
               ...더보기
@@ -108,7 +116,7 @@ const AnswerCard = ({ answer, quizId }) => {
                 onChange={(value) => setMarkdown(value)}
               />
             </div>
-            <div className="flex justify-end mt-3 gap-3">
+            <div className="flex justify-end gap-3 mt-3">
               <Button
                 variant="soft"
                 color="gray"
@@ -142,7 +150,7 @@ const AnswerCard = ({ answer, quizId }) => {
             <div data-color-mode="light" className="prose">
               <MarkdownEditor.Markdown source={answer.content} />
             </div>
-            <div className="flex justify-end mt-3 gap-3">
+            <div className="flex justify-end gap-3 mt-3">
               <Button
                 variant="soft"
                 color="gray"
